@@ -1,10 +1,10 @@
-name: Build & Release Nukkit
+name: Build & Release 
 
 on:
   push:
     branches:
-      - master 
-  workflow_dispatch: 
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
@@ -24,12 +24,12 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build shadowJar --no-daemon
+        run: ./gradlew clean build --no-daemon
 
       - name: Rename jar to server.jar
         run: |
           mkdir artifacts
-          cp build/libs/*-all.jar artifacts/server.jar
+          cp build/libs/nukkit-1.0-SNAPSHOT.jar artifacts/server.jar
 
       - name: Delete old "automatic" release if exists
         uses: dev-drprasad/delete-tag-and-release@v1.1
