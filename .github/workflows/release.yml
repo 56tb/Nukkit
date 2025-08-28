@@ -3,7 +3,8 @@ name: Build & Release Nukkit
 on:
   push:
     branches:
-      - master # or your main branch
+      - master 
+  workflow_dispatch: 
 
 jobs:
   build:
@@ -19,13 +20,16 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
 
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build shadowJar --no-daemon
 
       - name: Rename jar to server.jar
         run: |
           mkdir artifacts
-          cp target/*-shaded.jar artifacts/server.jar
+          cp build/libs/*-all.jar artifacts/server.jar
 
       - name: Delete old "automatic" release if exists
         uses: dev-drprasad/delete-tag-and-release@v1.1
@@ -44,4 +48,3 @@ jobs:
           files: artifacts/server.jar
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
-          
