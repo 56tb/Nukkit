@@ -35,8 +35,7 @@ jobs:
         uses: dev-drprasad/delete-tag-and-release@v1.1
         with:
           tag_name: automatic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          github_token: ${{ secrets.REPO_TOKEN }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
