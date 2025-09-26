@@ -1,4 +1,4 @@
-name: Build & Release 
+name: Build & Upload
 
 on:
   push:
@@ -31,19 +31,8 @@ jobs:
           mkdir artifacts
           cp target/nukkit-1.0-SNAPSHOT.jar artifacts/server.jar
 
-      - name: Delete old "automatic" release if exists
-        uses: dev-drprasad/delete-tag-and-release@v1.1
+      - name: Upload JAR as artifact
+        uses: actions/upload-artifact@v3
         with:
-          tag_name: automatic-release
-          github_token: ${{ secrets.REPO_TOKEN }}
-
-      - name: Create release
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: automatic-release
-          name: Automatic Release
-          draft: false
-          prerelease: false
-          files: artifacts/server.jar
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          name: server-jar
+          path: artifacts/server.jar
